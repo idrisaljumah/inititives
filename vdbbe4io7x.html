@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جدول خطوات المشروع</title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="theme-color" content="#0078d4">
+</head>
+<body>
+    <div class="container">
+        <div class="header-banner">
+            <h1>جدول خطوات المشروع</h1>
+        </div>
+        
+        <div class="controls">
+            <div class="search">
+                <input type="text" id="searchInput" placeholder="بحث في خطوات العمل...">
+            </div>
+            <div class="filter">
+                <select id="statusFilter" class="status-select">
+                    <option value="all">جميع الحالات</option>
+                    <option value="completed">مكتمل</option>
+                    <option value="in-progress">قيد التنفيذ</option>
+                    <option value="pending">قيد الانتظار</option>
+                </select>
+            </div>
+        </div>
+
+        <table id="projectTable">
+            <thead>
+                <tr>
+                    <th>خطوات العمل</th>
+                    <th>تاريخ البدء</th>
+                    <th>تاريخ الانتهاء</th>
+                    <th>الحالة</th>
+                    <th>الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Table content will be filled by JavaScript -->
+            </tbody>
+        </table>
+        
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>تعديل خطوة العمل</h2>
+            <form id="editForm">
+                <div style="margin-bottom: 15px;">
+                    <label for="editStep">خطوة العمل:</label>
+                    <input type="text" id="editStep" style="width: 100%; padding: 8px; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editStartDate">تاريخ البدء:</label>
+                    <input type="date" id="editStartDate" style="width: 100%; padding: 8px; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editEndDate">تاريخ الانتهاء:</label>
+                    <input type="date" id="editEndDate" style="width: 100%; padding: 8px; margin-top: 5px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label for="editStatus">الحالة:</label>
+                    <select id="editStatus" style="width: 100%; padding: 8px; margin-top: 5px;">
+                        <option value="completed">مكتمل</option>
+                        <option value="in-progress">قيد التنفيذ</option>
+                        <option value="pending">قيد الانتظار</option>
+                    </select>
+                </div>
+                <button type="submit" class="save-btn">حفظ</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

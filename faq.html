@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأسئلة الشائعة المجمعة</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #2c3e50;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid #3498db;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12);
+            z-index: 1;
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #062A40;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .home-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.2);
+        }
+        
+        .home-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .home-button i {
+            margin-left: 8px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-bottom: 3rem; /* Increased margin between containers */
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        
+        .header:hover {
+            transform: translateY(-5px);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(52, 152, 219, 0.05);
+            transition: all 0.5s ease;
+            z-index: 0;
+        }
+        
+        .header:hover::before {
+            left: 0;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: calc(50% - 230px);
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            transition: color 0.3s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+        
+        .search-input:focus + .search-icon {
+            color: #3498db;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem 3rem 1rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .search-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-right: 4px solid transparent;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-right-color: #3498db;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            color: #2c3e50;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-question::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question::after {
+            width: 100%;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease, color 0.3s ease;
+            color: #3498db;
+            font-size: 1.2rem;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+            color: #2980b9;
+        }
+
+        .faq-answer {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #f8f9fa;
+            line-height: 1.8;
+            color: #444;
+            border-top: 1px dashed #ddd;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 500px; /* Adjusted max-height for potentially longer answers */
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .faq-question {
+                padding: 1rem;
+            }
+            
+            .search-icon {
+                right: 20px;
+            }
+        }
+
+        .highlight {
+            background-color: #fff3cd; /* Yellow highlight */
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        hr.section-divider {
+            border: 0;
+            height: 3px;
+            background-image: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.5), rgba(52, 152, 219, 0.1));
+            margin: 5rem 0;
+            position: relative;
+        }
+        
+        hr.section-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Animation effects */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+        
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <div class="page-header fade-in">
+        <h1>تعرف على المزيد</h1>
+        <p>مجموعة شاملة من الإجابات على الأسئلة الأكثر شيوعاً حول مبادرات تعزيز كفاءة الإنفاق الحكومي في قطاع الصحة</p>
+        <a href="index.html" class="home-button"><i class="fas fa-home"></i> العودة إلى الرئيسية</a>
+    </div>
+
+    <!-- Section 1: المسارات السريرية -->
+    <div class="container fade-in delay-100">
+        <div class="header">
+            <h1>المسارات السريرية</h1>
+            <p>الأسئلة الأكثر شيوعاً</p>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="ابحث في أسئلة المسارات السريرية..." id="searchInput1">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="faq-container" id="faqContainer1">
+            <!-- FAQ items for section 1 will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 2: مبادرة ترشيد وصف الأدوية -->
+    <div class="container fade-in delay-200">
+        <div class="header">
+            <h1>مبادرة التقليل من الافراط في الوصفات الطبية</h1>
+            <p>الأسئلة الأكثر شيوعاً حول المبادرة</p>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="ابحث في أسئلة ترشيد الوصفات..." id="searchInput2">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="faq-container" id="faqContainer2">
+            <!-- FAQ items for section 2 will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Section 3: مبادرة الرعاية الصحية المبنية على الأدلة -->
+    <div class="container fade-in delay-300">
+        <div class="header">
+            <h1>مبادرة ضمان الاستخدام الرشيد للفحوصات الطبية</h1>
+            <p>الأسئلة الأكثر شيوعاً حول المبادرة</p>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="ابحث في أسئلة ترشيد الفحوصات..." id="searchInput3">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        <div class="faq-container" id="faqContainer3">
+            <!-- FAQ items for section 3 will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Data for Section 1: المسارات السريرية
+        const faqData1 = [
+            { question: "ما هي مبادرة المسارات السريرية؟", answer: "مبادرة المسارات السريرية هي إطار منهجي يهدف إلى تحسين جودة الرعاية الصحية من خلال وضع إرشادات موحدة لتشخيص وعلاج الأمراض، مما يسهم في تحسين تجربة المرضى وكفاءة تقديم الخدمات الصحية." },
+            { question: "ما الهدف الأساسي من المبادرة؟", answer: "تهدف المبادرة إلى توحيد آليات تقديم الرعاية الصحية، تقليل الأخطاء الطبية، تحسين التنسيق بين الفرق الطبية، وتعزيز كفاءة استخدام الموارد الصحية." },
+            { question: "من المستفيد من هذه المبادرة؟", answer: "يستفيد منها المرضى من خلال تحسين جودة الرعاية، كما يستفيد مقدمو الرعاية الصحية من خلال اتباع مسارات واضحة تعزز الكفاءة وتقلل من التباين في طرق العلاج." },
+            { question: "كيف تؤثر المسارات السريرية على تجربة المرضى؟", answer: "توفر المسارات السريرية رعاية أكثر تنظيماً واستناداً إلى الأدلة العلمية، مما يقلل من فترة الإقامة في المستشفى، ويحسن نتائج العلاج، ويجعل تجربة المريض أكثر وضوحاً وسهولة." },
+            { question: "هل تقلل المسارات السريرية من دور الأطباء في اتخاذ القرار العلاجي؟", answer: "لا، بل توفر لهم دليلاً استرشادياً مبنياً على الأدلة العلمية، مما يساعدهم في اتخاذ قرارات علاجية مبنية على أفضل الممارسات، مع الحفاظ على مرونة التعامل مع كل حالة حسب احتياجاتها الفردية." },
+            { question: "كيف يتم تطوير المسارات السريرية؟", answer: "يتم تطوير المسارات السريرية من خلال تحليل البيانات السريرية، والاعتماد على الأدلة العلمية المحدثة، ومشاركة الخبراء والممارسين الصحيين لضمان فعاليتها وملاءمتها للواقع الصحي." },
+            { question: "هل يمكن تعديل المسارات السريرية بمرور الوقت؟", answer: "نعم، يتم تحديث المسارات السريرية بانتظام بناءً على التغيرات في الأدلة العلمية والتوصيات الطبية لضمان استمرار تحسين جودة الرعاية." },
+            { question: "ما الفرق بين المسارات السريرية والبروتوكولات العلاجية؟", answer: "المسارات السريرية توفر إطاراً شاملاً يشمل جميع مراحل الرعاية بدءاً من التشخيص حتى المتابعة، بينما تركز البروتوكولات العلاجية على خطوات محددة في العلاج فقط." },
+            { question: "كيف يمكن للمنشآت الصحية تبني هذه المبادرة؟", answer: "يمكن للمنشآت الصحية تبني المبادرة من خلال تشكيل فرق متخصصة، تدريب العاملين، وتطبيق المسارات السريرية تدريجياً مع مراقبة النتائج وتحديثها وفقاً للحاجة." },
+            { question: "كيف تساهم المسارات السريرية في تقليل التكاليف الصحية؟", answer: "من خلال تقليل الفحوصات غير الضرورية، تحسين إدارة الموارد، وتقليل فترات الإقامة في المستشفى، مما يؤدي إلى استخدام أكثر كفاءة للموارد الصحية وتقليل الإنفاق الزائد." }
+        ];
+
+        // Data for Section 2: مبادرة ترشيد وصف الأدوية
+        const faqData2 = [
+            { question: "ما الهدف الرئيسي من هذه المبادرة؟", answer: "تهدف المبادرة إلى تقليل الإفراط في وصف الأدوية وتعزيز الممارسات الدوائية الآمنة، مما يساهم في تحسين صحة المرضى وترشيد استخدام الموارد الصحية." },
+            { question: "لماذا يعد الإفراط في الوصفات الطبية مشكلة صحية؟", answer: "يمكن أن يؤدي الإفراط في وصف الأدوية إلى مضاعفات صحية مثل الآثار الجانبية غير المرغوبة، مقاومة المضادات الحيوية، وزيادة الأعباء المالية على المرضى والنظام الصحي." },
+            { question: "من هم الفئات المستهدفة في هذه المبادرة؟", answer: "تستهدف المبادرة مقدمي الرعاية الصحية (الأطباء، الصيادلة، الممرضين)، المرضى، وصانعي القرار الصحي لضمان تنفيذ سياسات فعالة تقلل من الإفراط في وصف الأدوية." },
+            { question: "كيف يمكن لمقدمي الرعاية الصحية المساهمة في نجاح المبادرة؟", answer: "يمكنهم ذلك من خلال الالتزام بالإرشادات العلاجية، تجنب وصف الأدوية غير الضرورية، توعية المرضى حول الاستخدام الرشيد للعلاجات، وتشجيع البدائل غير الدوائية عند الإمكان." },
+            { question: "هل تهدف المبادرة إلى تقليل وصف الأدوية بشكل عام؟", answer: "لا، المبادرة تهدف إلى تقليل الإفراط في الوصفات الطبية فقط، مع ضمان حصول المرضى على الأدوية الضرورية وفقًا للحالة الصحية وبناءً على الأدلة الطبية." },
+            { question: "ما تأثير المبادرة على المرضى؟", answer: "ستحسن صحتهم عبر تقليل الآثار الجانبية للأدوية غير الضرورية، وزيادة التوعية حول طرق العلاج الآمنة، مما يؤدي إلى استخدام أكثر فعالية للأدوية." },
+            { question: "كيف سيتم مراقبة نجاح المبادرة؟", answer: "سيتم تقييم المبادرة من خلال مؤشرات مثل انخفاض معدل الوصفات غير الضرورية، تقليل مقاومة المضادات الحيوية، وزيادة وعي مقدمي الرعاية الصحية حول الممارسات الدوائية الرشيدة." },
+            { question: "هل هناك بدائل للأدوية في بعض الحالات؟", answer: "نعم، يمكن اللجوء إلى العلاجات غير الدوائية مثل العلاج الطبيعي، التغييرات في نمط الحياة، والاستشارات السلوكية في بعض الحالات بدلاً من الأدوية غير الضرورية." },
+            { question: "كيف يمكن للمرضى المساهمة في الحد من الإفراط في الوصفات الطبية؟", answer: "يمكنهم ذلك من خلال استشارة الأطباء حول ضرورة الأدوية الموصوفة، الالتزام بالجرعات المحددة، وعدم طلب الأدوية دون حاجة طبية واضحة." },
+            { question: "كيف يمكن للجهات الصحية دعم هذه المبادرة؟", answer: "يمكنها المساهمة من خلال وضع سياسات واضحة، تعزيز التدريب لمقدمي الرعاية الصحية، نشر التوعية بين المرضى، وإنشاء أنظمة مراقبة للوصفات الطبية." }
+        ];
+
+        // Data for Section 3: مبادرة الرعاية الصحية المبنية على الأدلة
+        const faqData3 = [
+            { question: "ما الهدف الرئيسي من المبادرة؟", answer: "تهدف المبادرة إلى تحسين جودة الرعاية الصحية من خلال تطبيق الإجراءات الطبية المبنية على الأدلة، مما يساعد في تقليل الفحوصات والعلاجات غير الضرورية وترشيد استهلاك الموارد الطبية." },
+            { question: "من الفئة المستهدفة لهذه المبادرة؟", answer: "تشمل الفئة المستهدفة جميع مقدمي الرعاية الصحية، مثل الأطباء، والممرضين، والفنيين، بالإضافة إلى المرضى الذين يستفيدون من الرعاية الصحية المبنية على أفضل الممارسات." },
+            { question: "كيف تساهم المبادرة في تقليل التكاليف الطبية؟", answer: "تعمل المبادرة على تقليل الإجراءات غير الضرورية، مما يحدّ من الإنفاق غير المبرر على الفحوصات والعلاجات غير الفعالة، وبالتالي تحسين استخدام الميزانية الصحية." },
+            { question: "ما دور الكوادر الطبية في نجاح المبادرة؟", answer: "يُطلب من الكوادر الطبية الالتزام بالبروتوكولات العلاجية المبنية على الأدلة، والتدريب المستمر على أحدث الممارسات، إضافة إلى توعية المرضى حول أهمية الرعاية الرشيدة." },
+            { question: "هل تؤثر المبادرة على مستوى الرعاية الصحية المقدمة للمرضى؟", answer: "لا، بل تهدف إلى تحسين مستوى الرعاية الصحية من خلال تقديم علاجات أكثر دقة وفعالية، وتقليل الأخطاء الطبية والمضاعفات الناتجة عن الإجراءات غير الضرورية." },
+            { question: "كيف يمكن للمرضى المساهمة في تحقيق أهداف المبادرة؟", answer: "يمكن للمرضى المشاركة في المبادرة من خلال التوعية بأهمية الإجراءات الطبية الرشيدة، وطرح الأسئلة على مقدمي الرعاية الصحية حول ضرورة أي فحص أو إجراء طبي مقترح." },
+            { question: "ما هي الخطوات المتبعة لتنفيذ المبادرة في المؤسسات الصحية؟", answer: "تشمل الخطوات تنفيذ بروتوكولات العلاج المحدثة، تدريب الكوادر الصحية، مراقبة وتقييم الأداء، ورفع تقارير دورية عن مدى تحقيق المبادرة لأهدافها." },
+            { question: "هل هناك مؤشرات لقياس نجاح المبادرة؟", answer: "نعم، تشمل المؤشرات عدد الإجراءات الطبية غير الضرورية التي تم تقليلها، ومستوى رضا المرضى، وتحسن جودة الرعاية، بالإضافة إلى تحقيق وفورات مالية في القطاع الصحي." },
+            { question: "كيف يتم التعامل مع التحديات المحتملة عند تطبيق المبادرة؟", answer: "يتم التعامل مع التحديات من خلال التوعية المستمرة، تقديم الدعم التدريبي للكوادر الطبية، ومتابعة التنفيذ ميدانيًا لضمان الالتزام بمعايير التطبيق الرشيد." },
+            { question: "هل هناك خطط مستقبلية لتطوير المبادرة؟", answer: "نعم، تسعى المبادرة إلى التطوير المستمر عبر تحديث البروتوكولات الطبية، وتحليل البيانات بشكل دوري، والتوسع في تطبيقها على نطاق أوسع داخل المؤسسات الصحية." }
+        ];
+
+        function createFAQElements(dataArray, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error("Container not found: " + containerId);
+                return;
+            }
+            container.innerHTML = ''; // Clear existing items
+
+            dataArray.forEach((item) => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'faq-item';
+                // **MODIFIED**: Replaced template literal with string concatenation
+                faqItem.innerHTML =
+                    '<div class="faq-question">' +
+                        '<span>' + item.question + '</span>' +
+                        '<i class="fas fa-chevron-down"></i>' +
+                    '</div>' +
+                    '<div class="faq-answer">' + item.answer + '</div>';
+
+                faqItem.querySelector('.faq-question').addEventListener('click', () => {
+                    faqItem.classList.toggle('active');
+                });
+                container.appendChild(faqItem);
+            });
+        }
+
+        function searchFAQ(searchTerm, containerId, originalDataArray) {
+            const container = document.getElementById(containerId);
+            if (!container) {
+                console.error("Container not found for search: " + containerId);
+                return;
+            }
+            const faqItems = container.querySelectorAll('.faq-item');
+            const lowerSearchTerm = searchTerm.toLowerCase();
+
+            faqItems.forEach((item, index) => {
+                // Ensure index is within bounds of originalDataArray
+                if (index >= originalDataArray.length) return; 
+                
+                const originalQuestion = originalDataArray[index].question;
+                const originalAnswer = originalDataArray[index].answer;
+                const questionSpan = item.querySelector('.faq-question span');
+                const answerDiv = item.querySelector('.faq-answer');
+
+                // Check if elements exist before modifying
+                if (!questionSpan || !answerDiv) return; 
+
+                if (searchTerm.trim() === '') {
+                    item.style.display = 'block';
+                    questionSpan.innerHTML = originalQuestion;
+                    answerDiv.innerHTML = originalAnswer;
+                } else {
+                    // Escape special characters in search term for regex
+                    const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); 
+                    const regex = new RegExp(escapedSearchTerm, 'gi');
+                    const questionMatch = originalQuestion.match(regex);
+                    const answerMatch = originalAnswer.match(regex);
+
+                    if (questionMatch || answerMatch) {
+                        item.style.display = 'block';
+                        // **MODIFIED**: Replaced template literal with function returning concatenated string
+                        questionSpan.innerHTML = originalQuestion.replace(regex, function(match) {
+                            return '<span class="highlight">' + match + '</span>';
+                        });
+                        // **MODIFIED**: Replaced template literal with function returning concatenated string
+                        answerDiv.innerHTML = originalAnswer.replace(regex, function(match) {
+                            return '<span class="highlight">' + match + '</span>';
+                        });
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Section 1
+            createFAQElements(faqData1, 'faqContainer1');
+            const searchInput1 = document.getElementById('searchInput1');
+            if(searchInput1) {
+                searchInput1.addEventListener('input', (e) => searchFAQ(e.target.value, 'faqContainer1', faqData1));
+            } else {
+                console.error("Search input not found: searchInput1");
+            }
+
+            // Initialize Section 2
+            createFAQElements(faqData2, 'faqContainer2');
+            const searchInput2 = document.getElementById('searchInput2');
+            if(searchInput2) {
+                searchInput2.addEventListener('input', (e) => searchFAQ(e.target.value, 'faqContainer2', faqData2));
+            } else {
+                console.error("Search input not found: searchInput2");
+            }
+
+            // Initialize Section 3
+            createFAQElements(faqData3, 'faqContainer3');
+            const searchInput3 = document.getElementById('searchInput3');
+            if(searchInput3) {
+                searchInput3.addEventListener('input', (e) => searchFAQ(e.target.value, 'faqContainer3', faqData3));
+            } else {
+                console.error("Search input not found: searchInput3");
+            }
+        });
+    </script>
+</body>
+</html>

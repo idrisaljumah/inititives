@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المخطط الزمني لمسار تسمم الدم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f7fa;
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e4eff9 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            padding: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .header-buttons {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #062A40;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+        .back-button:hover {
+            background-color: #0a3d5c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .back-button i {
+            margin-left: 8px;
+            font-size: 14px;
+        }
+        h1 {
+            text-align: center;
+            color: #062A40;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 2.2rem;
+            padding-bottom: 10px;
+            position: relative;
+        }
+        h1:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background-color: #2196F3;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        .timeline-container {
+            position: relative;
+            padding-top: 60px; /* Increased to accommodate year labels */
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .timeline-header {
+            position: absolute;
+            top: 0;
+            right: 250px;
+            left: 0;
+            height: 60px;
+            background: linear-gradient(to bottom, #f9f9f9, #f0f0f0);
+            border-bottom: 1px solid #e0e0e0;
+            border-radius: 8px 0 0 0;
+            z-index: 2;
+        }
+        .year-labels {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 25px;
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(240, 240, 240, 0.7);
+            border-bottom: 1px solid #e6e6e6;
+            padding-top: 5px;
+        }
+        .year-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        .month-markers {
+            position: absolute;
+            top: 25px; /* Position below year labels */
+            right: 0;
+            left: 0;
+            height: 35px;
+            display: flex;
+            background-color: rgba(245, 245, 245, 0.7);
+        }
+        .month-section {
+            position: relative;
+            height: 100%;
+            border-right: 1px solid #e0e0e0;
+        }
+        .month-labels {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-around;
+            padding-top: 8px;
+        }
+        .month-label {
+            font-size: 12px;
+            color: #555;
+            transform: translateX(50%);
+        }
+        .task-container {
+            background-color: #fafafa;
+            border-radius: 0 0 8px 8px;
+            padding-top: 10px;
+        }
+        .task {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .task:hover {
+            background-color: #f5f5f5;
+        }
+        .task:nth-child(odd) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        .task-name {
+            width: 250px;
+            padding: 10px 15px;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: right;
+            background-color: #f0f4f8;
+            border-radius: 6px 0 0 6px;
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.05);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .timeline-bar {
+            flex-grow: 1;
+            position: relative;
+            height: 40px;
+            background-color: rgba(240, 240, 240, 0.5);
+            border-radius: 0 6px 6px 0;
+        }
+        .task-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 40px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .task-bar:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 100;
+            width: 280px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: right;
+        }
+        .tooltip-visible {
+            opacity: 1;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .legend-item:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            margin-left: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .status-dropdown {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            display: none;
+            overflow: hidden;
+        }
+        .status-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        .status-option:hover {
+            background-color: #f5f5f5;
+        }
+        .current-date {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-buttons">
+            <a href="initiative-clinical-pathways.html" class="back-button">
+                <i class="fas fa-arrow-right"></i> العودة إلى مبادرة تقوية المسارات السريرية
+            </a>
+        </div>
+        
+        <h1>المخطط الزمني لمسار تسمم الدم</h1>
+        <div class="current-date" id="current-date"></div>
+        
+        <div class="timeline-container" id="timeline-container">
+            <div class="timeline-header">
+                <div class="year-labels" id="year-labels"></div>
+                <div class="month-markers" id="month-markers"></div>
+            </div>
+            <!-- Today marker completely removed -->
+            <div id="tasks-container" class="task-container"></div>
+        </div>
+        
+        <div style="margin-top: 20px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+            <h3 style="margin-top: 0; color: #062A40;">نسبة الانجاز</h3>
+            <div style="height: 30px; background-color: #e0e0e0; border-radius: 15px; overflow: hidden; position: relative;">
+                <div id="progress-bar" style="height: 100%; width: 20%; background: linear-gradient(90deg, #2196F3, #0D47A1); border-radius: 15px; transition: width 1s ease-in-out;">
+                    <span id="progress-text" style="position: absolute; right: 15px; top: 5px; color: white; font-weight: bold;">20%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend" id="legend"></div>
+        
+        <div id="tooltip" class="tooltip"></div>
+        <div id="status-dropdown" class="status-dropdown"></div>
+    </div>
+
+    <script>
+        // Task data with dates spanning from Sep 2024 to Dec 2025
+        const tasks = [
+            { 
+                id: 1,
+                name: "البحث الأولي وجمع البيانات", 
+                startDate: "2024-09-20", 
+                endDate: "2024-10-20", 
+                status: "أنتهت", 
+                durationWeeks: 4,
+                details: "تم جمع البيانات الأولية وإجراء البحث المطلوب لتحديد نطاق المشروع"
+            },
+            { 
+                id: 2,
+                name: "إشراك أصحاب المصلحة والتشاور معهم (الكادر الصحي)", 
+                startDate: "2024-10-20", 
+                endDate: "2024-11-11", 
+                status: "أنتهت", 
+                durationWeeks: 3,
+                details: "تم عقد اجتماعات مع الكادر الصحي وأصحاب المصلحة لجمع المتطلبات والملاحظات"
+            },
+            { 
+                id: 3,
+                name: "صياغة المسار السريري", 
+                startDate: "2024-11-11", 
+                endDate: "2025-03-04", 
+                status: "في تقدم", 
+                durationWeeks: 16,
+                details: "جاري صياغة المسار السريري وتقييم المتطلبات حسب المعايير العالمية"
+            },
+            { 
+                id: 4,
+                name: "مراجعة المسار السريري والتغذية الراجعة", 
+                startDate: "2025-03-04", 
+                endDate: "2025-03-26", 
+                status: "متأخر", 
+                durationWeeks: 3,
+                details: "جاري مراجعة المسار السريري من قبل الفريق المختص وجمع الملاحظات"
+            },
+            { 
+                id: 5,
+                name: "التنقيح والصياغة النهائية", 
+                startDate: "2025-03-26", 
+                endDate: "2025-04-24", 
+                status: "متأخر", 
+                durationWeeks: 4,
+                details: "تنقيح المسار السريري بناءً على الملاحظات وإعداد الصياغة النهائية"
+            },
+            { 
+                id: 6,
+                name: "عملية الموافقة وإعتماد المسار السريري", 
+                startDate: "2025-04-24", 
+                endDate: "2025-05-09", 
+                status: "متأخر", 
+                durationWeeks: 2,
+                details: "الحصول على الموافقات اللازمة واعتماد المسار السريري من الجهات المختصة"
+            },
+            { 
+                id: 7,
+                name: "التخطيط للتدريب والتنفيذ", 
+                startDate: "2025-05-09", 
+                endDate: "2025-06-07", 
+                status: "متأخر", 
+                durationWeeks: 4,
+                details: "إعداد خطة التدريب وتحديد الموارد اللازمة للتنفيذ"
+            },
+            { 
+                id: 8,
+                name: "التنفيذ والبدء التجريبي للمسار السريري وأخذ التغذية الراجعة", 
+                startDate: "2025-06-07", 
+                endDate: "2025-08-03", 
+                status: "لم تبدأ", 
+                durationWeeks: 8,
+                details: "تنفيذ المسار السريري بشكل تجريبي وجمع الملاحظات للتحسين"
+            },
+            { 
+                id: 9,
+                name: "التعميم على جميع المستشفيات المستهدفة", 
+                startDate: "2025-08-03", 
+                endDate: "2025-09-01", 
+                status: "لم تبدأ", 
+                durationWeeks: 4,
+                details: "تعميم المسار السريري على جميع المستشفيات المستهدفة بعد نجاح المرحلة التجريبية"
+            },
+            { 
+                id: 10,
+                name: "المراقبة والتقييم", 
+                startDate: "2025-09-01", 
+                endDate: "2025-12-01", 
+                status: "لم تبدأ", 
+                durationWeeks: 13,
+                details: "مراقبة تنفيذ المسار السريري وتقييم النتائج وإجراء التحسينات اللازمة"
+            }
+        ];
+        
+        // Calculate progress percentage based on completed tasks
+        function calculateProgress() {
+            const completedTasks = tasks.filter(task => task.status === "أنتهت").length;
+            const totalTasks = tasks.length;
+            return Math.round((completedTasks / totalTasks) * 100);
+        }
+
+        // Status color mapping with new "متوقف" (paused) status
+        const statusColors = {
+            "أنتهت": "#4CAF50",     // Green
+            "في تقدم": "#2196F3",   // Blue
+            "متأخر": "#F44336",     // Red
+            "متوقف": "#FFC107",     // Yellow
+            "لم تبدأ": "#9E9E9E"     // Gray
+        };
+
+        // Find earliest and latest dates for timeline bounds
+        const earliestDate = new Date("2024-09-01"); // Start from beginning of September for clean display
+        const latestDate = new Date("2025-12-31");   // End at end of December for clean display
+
+        // Get current date in Oman time (GMT+4)
+        function getCurrentOmanDate() {
+            const now = new Date();
+            // Adjust to Oman time (GMT+4)
+            const omanOffset = 4 * 60; // 4 hours in minutes
+            const localOffset = now.getTimezoneOffset(); // Local offset in minutes
+            const totalOffset = omanOffset + localOffset; // Total offset in minutes
+            
+            // Apply the offset to get Oman time
+            return new Date(now.getTime() + totalOffset * 60 * 1000);
+        }
+
+        // Get the equivalent date in our timeline (2024-2025)
+        function getTimelineEquivalentDate(omanDate) {
+            // Create a date with the same month and day but in our timeline years
+            // If current month/day is within our timeline range, use it directly
+            const currentMonth = omanDate.getMonth();
+            const currentDay = omanDate.getDate();
+            
+            // Try to place the date in 2025 first (our primary year)
+            let timelineDate = new Date(2025, currentMonth, currentDay);
+            
+            // If the date is before our earliest date, try 2024
+            if (timelineDate < earliestDate) {
+                timelineDate = new Date(2024, currentMonth, currentDay);
+            }
+            
+            // If the date is after our latest date, try 2024
+            if (timelineDate > latestDate) {
+                timelineDate = new Date(2024, currentMonth, currentDay);
+            }
+            
+            // If still outside our range, default to middle of timeline
+            if (timelineDate < earliestDate || timelineDate > latestDate) {
+                // Default to a date in the middle of our timeline
+                const middleTime = (earliestDate.getTime() + latestDate.getTime()) / 2;
+                timelineDate = new Date(middleTime);
+            }
+            
+            return timelineDate;
+        }
+
+        // Current Oman date and timeline equivalent
+        let currentOmanDate = getCurrentOmanDate();
+        let today = getTimelineEquivalentDate(currentOmanDate);
+
+        // Format the current Oman date for display
+        function formatOmanDate(date) {
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('ar-OM', options);
+        }
+
+        // Update date displays
+        function updateDateDisplays() {
+            document.getElementById('current-date').textContent = `التاريخ الحالي: ${formatOmanDate(currentOmanDate)}`;
+        }
+
+        // Parse date string to Date object
+        function parseDate(dateStr) {
+            return new Date(dateStr);
+        }
+
+        // Timeline dimensions
+        function getTimelineWidth() {
+            return document.getElementById('timeline-container').offsetWidth - 250; // Subtract task name width
+        }
+
+        // Function to convert date to position
+        function dateToPosition(date) {
+            const timelineWidth = getTimelineWidth();
+            const totalDays = (latestDate - earliestDate) / (1000 * 60 * 60 * 24);
+            const daysPassed = (date - earliestDate) / (1000 * 60 * 60 * 24);
+            return (daysPassed / totalDays) * timelineWidth;
+        }
+
+        // Arabic month names
+        const arabicMonths = [
+            "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+            "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+        ];
+
+        // Generate year labels
+        function generateYearLabels() {
+            const yearLabelsContainer = document.getElementById('year-labels');
+            yearLabelsContainer.innerHTML = '';
+            
+            // Get unique years in the timeline
+            const startYear = earliestDate.getFullYear();
+            const endYear = latestDate.getFullYear();
+            
+            // Create a label for each year
+            for (let year = startYear; year <= endYear; year++) {
+                const yearStart = new Date(year, 0, 1);
+                const yearEnd = new Date(year, 11, 31);
+                
+                // Adjust if outside our timeline
+                const adjustedStart = yearStart < earliestDate ? earliestDate : yearStart;
+                const adjustedEnd = yearEnd > latestDate ? latestDate : yearEnd;
+                
+                const startPos = dateToPosition(adjustedStart);
+                const endPos = dateToPosition(adjustedEnd);
+                const width = endPos - startPos;
+                
+                const yearElement = document.createElement('div');
+                yearElement.className = 'year-label';
+                yearElement.textContent = year;
+                yearElement.style.position = 'absolute';
+                yearElement.style.right = `${startPos}px`;
+                yearElement.style.width = `${width}px`;
+                yearElement.style.textAlign = 'center';
+                
+                yearLabelsContainer.appendChild(yearElement);
+            }
+        }
+
+        // Generate month markers
+        function generateMonthMarkers() {
+            const monthMarkersContainer = document.getElementById('month-markers');
+            monthMarkersContainer.innerHTML = '';
+            
+            // Get unique years in the timeline
+            const startYear = earliestDate.getFullYear();
+            const endYear = latestDate.getFullYear();
+            
+            // For each year, create a section with month labels
+            for (let year = startYear; year <= endYear; year++) {
+                const yearStart = new Date(year, 0, 1);
+                const yearEnd = new Date(year, 11, 31);
+                
+                // Adjust if outside our timeline
+                const adjustedStart = yearStart < earliestDate ? earliestDate : yearStart;
+                const adjustedEnd = yearEnd > latestDate ? latestDate : yearEnd;
+                
+                const startPos = dateToPosition(adjustedStart);
+                const endPos = dateToPosition(adjustedEnd);
+                const width = endPos - startPos;
+                
+                const yearSection = document.createElement('div');
+                yearSection.className = 'month-section';
+                yearSection.style.position = 'absolute';
+                yearSection.style.right = `${startPos}px`;
+                yearSection.style.width = `${width}px`;
+                
+                const monthLabelsContainer = document.createElement('div');
+                monthLabelsContainer.className = 'month-labels';
+                
+                // Determine start and end months for this year
+                const startMonth = adjustedStart.getMonth();
+                const endMonth = adjustedEnd.getMonth();
+                
+                // Create labels for each month in this year
+                for (let month = 0; month <= 11; month++) {
+                    if ((year === startYear && month < startMonth) || 
+                        (year === endYear && month > endMonth)) {
+                        continue; // Skip months outside our range
+                    }
+                    
+                    const monthLabel = document.createElement('div');
+                    monthLabel.className = 'month-label';
+                    monthLabel.textContent = arabicMonths[month];
+                    
+                    // Position relative to the year section
+                    const monthPosition = (month - startMonth) / (endMonth - startMonth + 1);
+                    monthLabel.style.right = `${monthPosition * 100}%`;
+                    
+                    monthLabelsContainer.appendChild(monthLabel);
+                }
+                
+                yearSection.appendChild(monthLabelsContainer);
+                monthMarkersContainer.appendChild(yearSection);
+            }
+        }
+
+        // Format date for display
+        function formatDate(date) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Determine task status based on dates
+        function determineStatus(task) {
+            const startDate = parseDate(task.startDate);
+            const endDate = parseDate(task.endDate);
+            
+            if (today < startDate) {
+                return "لم تبدأ";
+            } else if (today > endDate) {
+                // Don't automatically change to "أنتهت" - keep the existing status
+                return task.status;
+            } else if (today >= startDate && today <= endDate) {
+                // If we're in the task period, it's either in progress or delayed
+                if (task.status === "متأخر" || task.status === "متوقف") {
+                    return task.status;
+                } else {
+                    return "في تقدم";
+                }
+            }
+            
+            return task.status;
+        }
+
+        // Update task statuses based on dates
+        function updateTaskStatuses() {
+            tasks.forEach(task => {
+                // Only update status if not manually overridden
+                if (!task.manualStatus) {
+                    // Determine status based on current date
+                    task.status = determineStatus(task);
+                }
+            });
+        }
+
+        // Render tasks
+        function renderTasks() {
+            const tasksContainer = document.getElementById('tasks-container');
+            tasksContainer.innerHTML = '';
+            
+            tasks.forEach(task => {
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task';
+                
+                const nameElement = document.createElement('div');
+                nameElement.className = 'task-name';
+                nameElement.textContent = task.name;
+                
+                const timelineBar = document.createElement('div');
+                timelineBar.className = 'timeline-bar';
+                
+                const startPos = dateToPosition(parseDate(task.startDate));
+                const endPos = dateToPosition(parseDate(task.endDate));
+                const width = endPos - startPos;
+                
+                const taskBar = document.createElement('div');
+                taskBar.className = 'task-bar';
+                taskBar.dataset.taskId = task.id;
+                taskBar.style.right = `${startPos}px`;
+                taskBar.style.width = `${width}px`;
+                taskBar.style.backgroundColor = statusColors[task.status];
+                taskBar.textContent = task.status;
+                
+                // Adjust text color for yellow status for better readability
+                if (task.status === "متوقف") {
+                    taskBar.style.color = "#000";
+                }
+                
+                // Add event listeners for hover and click
+                taskBar.addEventListener('mouseenter', showTooltip);
+                taskBar.addEventListener('mouseleave', hideTooltip);
+                taskBar.addEventListener('click', showStatusDropdown);
+                
+                timelineBar.appendChild(taskBar);
+                taskElement.appendChild(nameElement);
+                taskElement.appendChild(timelineBar);
+                tasksContainer.appendChild(taskElement);
+            });
+        }
+
+        // Render legend
+        function renderLegend() {
+            const legendContainer = document.getElementById('legend');
+            legendContainer.innerHTML = '';
+            
+            Object.entries(statusColors).forEach(([status, color]) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.dataset.status = status;
+                
+                const colorBox = document.createElement('div');
+                colorBox.className = 'legend-color';
+                colorBox.style.backgroundColor = color;
+                
+                const label = document.createElement('div');
+                label.textContent = status;
+                
+                // Adjust text color for yellow status in legend
+                if (status === "متوقف") {
+                    colorBox.style.border = "1px solid #ccc";
+                }
+                
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(label);
+                legendContainer.appendChild(legendItem);
+            });
+        }
+
+        // Show tooltip with task details
+        function showTooltip(event) {
+            const taskId = parseInt(event.target.dataset.taskId);
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (!task) return;
+            
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `
+                <div><strong>المهمة:</strong> ${task.name}</div>
+                <div><strong>الحالة:</strong> ${task.status}</div>
+                <div><strong>تاريخ البدء:</strong> ${formatDate(parseDate(task.startDate))}</div>
+                <div><strong>تاريخ الانتهاء:</strong> ${formatDate(parseDate(task.endDate))}</div>
+                <div><strong>المدة:</strong> ${task.durationWeeks} أسابيع</div>
+                <div><strong>التفاصيل:</strong> ${task.details}</div>
+            `;
+            
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - tooltip.offsetHeight - 10}px`;
+            tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+            tooltip.classList.add('tooltip-visible');
+        }
+
+        // Hide tooltip
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('tooltip-visible');
+        }
+
+        // Show status dropdown for changing task status
+        function showStatusDropdown(event) {
+            const taskId = parseInt(event.target.dataset.taskId);
+            const task = tasks.find(t => t.id === taskId);
+            
+            if (!task) return;
+            
+            const dropdown = document.getElementById('status-dropdown');
+            dropdown.innerHTML = '';
+            dropdown.style.display = 'block';
+            
+            Object.entries(statusColors).forEach(([status, color]) => {
+                const option = document.createElement('div');
+                option.className = 'status-option';
+                option.textContent = status;
+                option.style.borderRight = `4px solid ${color}`;
+                
+                // Adjust text color for yellow status
+                if (status === "متوقف") {
+                    option.style.color = "#000";
+                }
+                
+                option.addEventListener('click', () => changeTaskStatus(taskId, status));
+                dropdown.appendChild(option);
+            });
+            
+            const rect = event.target.getBoundingClientRect();
+            dropdown.style.top = `${rect.bottom + 5}px`;
+            dropdown.style.left = `${rect.left}px`;
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', closeDropdown);
+        }
+
+        // Close status dropdown
+        function closeDropdown(event) {
+            if (!event.target.closest('.task-bar') && !event.target.closest('.status-dropdown')) {
+                const dropdown = document.getElementById('status-dropdown');
+                dropdown.style.display = 'none';
+                document.removeEventListener('click', closeDropdown);
+            }
+        }
+
+        // Save task statuses to localStorage
+        function saveTaskStatuses() {
+            const savedStatuses = {};
+            tasks.forEach(task => {
+                if (task.manualStatus) {
+                    savedStatuses[task.id] = task.manualStatus;
+                }
+            });
+            
+            try {
+                localStorage.setItem('sepsis-timeline-statuses', JSON.stringify(savedStatuses));
+                console.log('Statuses saved successfully');
+            } catch (error) {
+                console.error('Error saving statuses to localStorage:', error);
+            }
+        }
+        
+        // Load task statuses from localStorage
+        function loadTaskStatuses() {
+            try {
+                const savedStatuses = localStorage.getItem('sepsis-timeline-statuses');
+                if (savedStatuses) {
+                    const statuses = JSON.parse(savedStatuses);
+                    tasks.forEach(task => {
+                        if (statuses[task.id]) {
+                            task.manualStatus = statuses[task.id];
+                            task.status = statuses[task.id];
+                        }
+                    });
+                    console.log('Statuses loaded successfully');
+                }
+            } catch (error) {
+                console.error('Error loading statuses from localStorage:', error);
+            }
+        }
+
+        // Change task status
+        function changeTaskStatus(taskId, newStatus) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            task.status = newStatus;
+            task.manualStatus = newStatus; // Mark as manually set
+            
+            // Update UI
+            const taskBar = document.querySelector(`.task-bar[data-task-id="${taskId}"]`);
+            taskBar.style.backgroundColor = statusColors[newStatus];
+            taskBar.textContent = newStatus;
+            
+            // Adjust text color for yellow status
+            if (newStatus === "متوقف") {
+                taskBar.style.color = "#000";
+            } else {
+                taskBar.style.color = "#fff";
+            }
+            
+            // Update the progress bar when status changes
+            updateProgressBar();
+            
+            // Save changes to localStorage
+            saveTaskStatuses();
+            
+            // Show save confirmation
+            showSaveConfirmation();
+            
+            // Close dropdown
+            const dropdown = document.getElementById('status-dropdown');
+            dropdown.style.display = 'none';
+        }
+        
+        // Show save confirmation message
+        function showSaveConfirmation() {
+            const container = document.querySelector('.container');
+            
+            // Create or update the confirmation message
+            let confirmation = document.getElementById('save-confirmation');
+            if (!confirmation) {
+                confirmation = document.createElement('div');
+                confirmation.id = 'save-confirmation';
+                confirmation.style.position = 'fixed';
+                confirmation.style.bottom = '20px';
+                confirmation.style.right = '20px';
+                confirmation.style.backgroundColor = '#4CAF50';
+                confirmation.style.color = 'white';
+                confirmation.style.padding = '10px 20px';
+                confirmation.style.borderRadius = '4px';
+                confirmation.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+                confirmation.style.opacity = '0';
+                confirmation.style.transition = 'opacity 0.3s ease';
+                confirmation.style.zIndex = '100';
+                document.body.appendChild(confirmation);
+            }
+            
+            confirmation.textContent = 'تم حفظ التغييرات';
+            confirmation.style.opacity = '1';
+            
+            // Hide the confirmation after 2 seconds
+            setTimeout(() => {
+                confirmation.style.opacity = '0';
+            }, 2000);
+        }
+
+        // Refresh the timeline with current date
+        function refreshTimeline() {
+            // Update current date
+            currentOmanDate = getCurrentOmanDate();
+            today = getTimelineEquivalentDate(currentOmanDate);
+            
+            // Update displays
+            updateDateDisplays();
+            
+            // Update task statuses
+            updateTaskStatuses();
+            
+            // Re-render tasks with updated statuses
+            renderTasks();
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressPercentage = calculateProgress();
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${progressPercentage}%`;
+        }
+        
+        // Initialize the timeline
+        function initTimeline() {
+            // Set up initial date displays
+            updateDateDisplays();
+            
+            // Load saved task statuses from localStorage
+            loadTaskStatuses();
+            
+            // Initialize timeline components
+            updateTaskStatuses();
+            generateYearLabels();
+            generateMonthMarkers();
+            renderTasks();
+            renderLegend();
+            
+            // Update progress bar
+            updateProgressBar();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                generateYearLabels();
+                generateMonthMarkers();
+                renderTasks();
+            });
+            
+            // Auto-refresh every minute
+            setInterval(() => {
+                refreshTimeline();
+                updateProgressBar();
+            }, 60000);
+        }
+
+        // Start the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initTimeline);
+    </script>
+</body>
+</html>
